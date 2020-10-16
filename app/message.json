@@ -1,0 +1,41 @@
+[
+  {
+    "model": "devk.message",
+    "pk": 1,
+    "fields": {
+      "name": "Client",
+      "email": "client@client.com",
+      "phoneNumber": "0781437818",
+      "country": "Guinea",
+      "message": "I would like to speak to you man.",
+      "created_date": "2020-10-16T16:42:54.968932Z",
+      "updated_date": "2020-10-16T16:42:54.968974Z"
+    }
+  },
+  {
+    "model": "devk.message",
+    "pk": 2,
+    "fields": {
+      "name": "client2",
+      "email": "client2@client.com",
+      "phoneNumber": "0781437818",
+      "country": "France",
+      "message": "I would like to know more about you.",
+      "created_date": "2020-10-16T16:43:24.258783Z",
+      "updated_date": "2020-10-16T16:43:24.258824Z"
+    }
+  },
+  {
+    "model": "devk.message",
+    "pk": 3,
+    "fields": {
+      "name": "client3",
+      "email": "client3@client.com",
+      "phoneNumber": "0781437818",
+      "country": "France",
+      "message": "I would like to know more about you.",
+      "created_date": "2020-10-16T16:43:24.258783Z",
+      "updated_date": "2020-10-16T16:43:24.258824Z"
+    }
+  }
+]

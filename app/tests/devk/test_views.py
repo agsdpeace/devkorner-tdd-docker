@@ -1,8 +1,6 @@
-import json
-
 import pytest
 
-from devk.models import Team
+from devk.models import Team, Message
 
 
 @pytest.mark.django_db
@@ -29,32 +27,17 @@ def test_add_team(client):
 
 
 @pytest.mark.django_db
-def test_add_team_invalid_json(client):
+@pytest.mark.parametrize('payload, status_code', [
+    [{}, 400],
+    [{'name': 'Abdoul BAH', 'position': 'Full Stack Engineer'}, 400],
+])
+def test_add_team_invalid_json(client, payload, status_code):
     team = Team.objects.all()
     assert len(team) == 0
 
     resp = client.post(
         '/api/team/',
-        {},
-        content_type='application/json'
-    )
-    assert resp.status_code == 400
-
-    team = Team.objects.all()
-    assert len(team) == 0
-
-
-@pytest.mark.django_db
-def test_add_team_invalid_json_keys(client):
-    team = Team.objects.all()
-    assert len(team) == 0
-
-    resp = client.post(
-        '/api/team/',
-        {
-            'name': 'Abdoul BAH',
-            'position': 'Full Stack Engineer',
-        },
+        payload,
         content_type='application/json'
     )
     assert resp.status_code == 400
@@ -146,3 +129,53 @@ def test_update_team_invalid_json(client, add_team, payload, status_code):
         content_type='application/json',
     )
     assert resp.status_code == status_code
+
+
+@pytest.mark.django_db
+def test_add_message(client):
+    message = Message.objects.all()
+    assert len(message) == 0
+
+    resp = client.post(
+        '/api/message/',
+        {
+            'name': 'Client',
+            'email': 'client@client.com',
+            'phoneNumber': '0781437818',
+            'country': 'Guinea',
+            'message': 'I would like to speak to you!',
+        },
+        content_type='application/json',
+    )
+    assert resp.status_code == 201
+    assert resp.data['name'] == 'Client'
+
+    message = Message.objects.all()
+    assert len(message) == 1
+
+
+# TODO: add non happy tests for post request
+
+@pytest.mark.django_db
+def test_get_all_messages(client, add_message):
+    message_one = add_message(
+        name='Client',
+        email='client@client.com',
+        phoneNumber='0781437818',
+        country='Guinea',
+        message='I would like to speak to you'
+    )
+
+    message_two = add_message(
+        name='Client2',
+        email='client2@client.com',
+        phoneNumber='0781437818',
+        country='Guinea',
+        message='I would like to speak to you'
+    )
+    resp = client.get('/api/message/')
+    assert resp.status_code == 200
+    assert resp.data[0]['name'] == message_one.name
+    assert resp.data[1]['name'] == message_two.name
+
+# TODO: add non happy tests for get request

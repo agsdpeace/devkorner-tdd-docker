@@ -1,4 +1,4 @@
-from devk.serializers import TeamSerializer
+from devk.serializers import TeamSerializer, MessageSerializer
 
 
 def test_valid_team_serializer():
@@ -28,3 +28,32 @@ def test_invalid_team_serializer():
     assert serializer.validated_data == {}
     assert serializer.data == invalid_serializer_data
     assert serializer.errors == {'twitter': ['This field is required.']}
+
+
+def test_valid_message_serializer():
+    valid_serializer_data = {
+        'name': 'Client',
+        'email': 'client@client.com',
+        'phoneNumber': '0781437818',
+        'country': 'Guinea',
+        'message': 'I would like to speak to you!',
+    }
+    serializer = MessageSerializer(data=valid_serializer_data)
+    assert serializer.is_valid()
+    assert serializer.validated_data == valid_serializer_data
+    assert serializer.data == valid_serializer_data
+    assert serializer.errors == {}
+
+
+def test_invalid_message_serializer():
+    invalid_serializer_data = {
+        'name': 'Client',
+        'email': 'client@client.com',
+        'phoneNumber': '0781437818',
+        'country': 'Guinea',
+    }
+    serializer = MessageSerializer(data=invalid_serializer_data)
+    assert not serializer.is_valid()
+    assert serializer.validated_data == {}
+    assert serializer.data == invalid_serializer_data
+    assert serializer.errors == {'message': ['This field is required.']}

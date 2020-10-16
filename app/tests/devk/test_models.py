@@ -1,6 +1,6 @@
 import pytest
 
-from devk.models import Team
+from devk.models import Team, Message
 
 
 # To enable database access in tests
@@ -20,3 +20,21 @@ def test_team_model():
     assert team.linkedin == 'https://www.linkedin.com/in/abdoul-bah/'
     assert team.twitter == 'https://www.linkedin.com/in/abdoul-bah/'
     assert str(team) == team.name
+
+
+@pytest.mark.django_db
+def test_message_model():
+    message = Message(
+        name='Client',
+        email='client@client.com',
+        phoneNumber='0781437818',
+        country='Guinea',
+        message='I would like to speak to you',
+    )
+    message.save()
+    assert message.name == 'Client'
+    assert message.email == 'client@client.com'
+    assert message.phoneNumber == '0781437818'
+    assert message.country == 'Guinea'
+    assert message.message == 'I would like to speak to you'
+    assert str(message) == message.name
