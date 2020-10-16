@@ -1,4 +1,4 @@
-from devk.serializers import TeamSerializer, MessageSerializer
+from devk.serializers import TeamSerializer, MessageSerializer, DevkornerInfosSerializer
 
 
 def test_valid_team_serializer():
@@ -34,7 +34,7 @@ def test_valid_message_serializer():
     valid_serializer_data = {
         'name': 'Client',
         'email': 'client@client.com',
-        'phoneNumber': '0781437818',
+        'phone_number': '0781437818',
         'country': 'Guinea',
         'message': 'I would like to speak to you!',
     }
@@ -49,7 +49,7 @@ def test_invalid_message_serializer():
     invalid_serializer_data = {
         'name': 'Client',
         'email': 'client@client.com',
-        'phoneNumber': '0781437818',
+        'phone_number': '0781437818',
         'country': 'Guinea',
     }
     serializer = MessageSerializer(data=invalid_serializer_data)
@@ -57,3 +57,36 @@ def test_invalid_message_serializer():
     assert serializer.validated_data == {}
     assert serializer.data == invalid_serializer_data
     assert serializer.errors == {'message': ['This field is required.']}
+
+
+def test_valid_devkorner_infos_serializer():
+    valid_serializer_data = {
+        'name': 'Dev Korner',
+        'email': 'contact@devkorner.fr',
+        'phone_number': '0781437818',
+        'facebook': 'facebook',
+        'twitter': 'twitter',
+        'instagram': 'instagram',
+        'linkedin': 'linkedin',
+    }
+    serializer = DevkornerInfosSerializer(data=valid_serializer_data)
+    assert serializer.is_valid()
+    assert serializer.validated_data == valid_serializer_data
+    assert serializer.data == valid_serializer_data
+    assert serializer.errors == {}
+
+
+def test_invalid_devkorner_infos_serializer():
+    invalid_serializer_data = {
+        'name': 'Dev Korner',
+        'email': 'contact@devkorner.fr',
+        'phone_number': '0781437818',
+        'facebook': 'facebook',
+        'twitter': 'twitter',
+        'instagram': 'instagram',
+    }
+    serializer = DevkornerInfosSerializer(data=invalid_serializer_data)
+    assert not serializer.is_valid()
+    assert serializer.validated_data == {}
+    assert serializer.data == invalid_serializer_data
+    assert serializer.errors == {'linkedin': ['This field is required.']}

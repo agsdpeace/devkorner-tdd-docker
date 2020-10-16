@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 
-from .models import Team, Message, CustomUser
+from .models import Team, Message, DevkornerInfos, CustomUser
 
 
 @admin.register(CustomUser)
@@ -25,10 +25,23 @@ class TeamAdmin(admin.ModelAdmin):
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     fields = (
-        'name', 'email', 'phoneNumber', 'country', 'message', 'created_date', 'updated_date',
+        'name', 'email', 'phone_number', 'country', 'message', 'created_date', 'updated_date',
     )
     list_display = (
-        'name', 'email', 'phoneNumber', 'country', 'message', 'created_date', 'updated_date',
+        'name', 'email', 'phone_number', 'country', 'message', 'created_date', 'updated_date',
+    )
+    readonly_fields = (
+        'created_date', 'updated_date',
+    )
+
+
+@admin.register(DevkornerInfos)
+class DevkornerInfosAdmin(admin.ModelAdmin):
+    fields = (
+        'name', 'email', 'phone_number', 'facebook', 'twitter', 'instagram', 'linkedin', 'created_date', 'updated_date',
+    )
+    list_display = (
+        'name', 'email', 'phone_number', 'facebook', 'twitter', 'instagram', 'linkedin', 'created_date', 'updated_date',
     )
     readonly_fields = (
         'created_date', 'updated_date',

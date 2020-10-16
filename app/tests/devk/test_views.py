@@ -141,7 +141,7 @@ def test_add_message(client):
         {
             'name': 'Client',
             'email': 'client@client.com',
-            'phoneNumber': '0781437818',
+            'phone_number': '0781437818',
             'country': 'Guinea',
             'message': 'I would like to speak to you!',
         },
@@ -161,7 +161,7 @@ def test_get_all_messages(client, add_message):
     message_one = add_message(
         name='Client',
         email='client@client.com',
-        phoneNumber='0781437818',
+        phone_number='0781437818',
         country='Guinea',
         message='I would like to speak to you'
     )
@@ -169,7 +169,7 @@ def test_get_all_messages(client, add_message):
     message_two = add_message(
         name='Client2',
         email='client2@client.com',
-        phoneNumber='0781437818',
+        phone_number='0781437818',
         country='Guinea',
         message='I would like to speak to you'
     )
@@ -179,3 +179,19 @@ def test_get_all_messages(client, add_message):
     assert resp.data[1]['name'] == message_two.name
 
 # TODO: add non happy tests for get request
+
+
+@pytest.mark.django_db
+def test_get_devkorner_infos(client, add_devkorner_infos):
+    devkorner_infos = add_devkorner_infos(
+        name='Dev Korner',
+        email='contact@devkorner.fr',
+        phone_number='0781437818',
+        facebook='facebook',
+        twitter='twitter',
+        instagram='instagram',
+        linkedin='linkedin',
+    )
+    resp = client.get('/api/devkorner-infos/')
+    assert resp.status_code == 200
+    assert resp.data[0]['name'] == devkorner_infos.name
